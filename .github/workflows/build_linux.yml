@@ -1,0 +1,20 @@
+name: Build Linux
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Node  
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm install -g @quasar/cli
+      - run: quasar build --mode electron
+      - uses: actions/upload-artifact@v2
+        with:
+          name: grapetool_linux
+          path: /home/runner/work/bookmarek/bookmarek/dist/electron/grapetool-linux-x64
+      - run: echo "🍏 This job's status is ${{ job.status }}."

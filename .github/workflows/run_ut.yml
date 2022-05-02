@@ -1,0 +1,16 @@
+name: Run UT
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Node  
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install
+      - run: npm install -g @quasar/cli
+      - run: npm test
+      - run: echo "🍏 This job's status is ${{ job.status }}."
