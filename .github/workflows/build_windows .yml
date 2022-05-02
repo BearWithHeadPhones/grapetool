@@ -13,8 +13,8 @@ jobs:
       - run: npm install
       - run: npm install -g @quasar/cli
       - run: quasar build --mode electron
-      - uses: actions/upload-artifact@v2
-        with:
-          name: grapetool_win
-          path: D:\a\bookmarek\bookmarek\dist\electron\grapetool-win32-x64
+     # - uses: actions/upload-artifact@v2
+       # with:
+       #   name: grapetool_win
+       #   path: D:\a\bookmarek\bookmarek\dist\electron\grapetool-win32-x64
       - run: echo "🍏 This job's status is ${{ job.status }}."
