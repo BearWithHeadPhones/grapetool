@@ -32,8 +32,7 @@ export default defineComponent({
   data() {
     return {
       $store: useStore(),
-      emot: "  ",
-      dupax: "",
+      emot: "  "
     };
   },
   props: {

@@ -1,5 +1,5 @@
 <template>
-        <q-item clickable v-ripple @click="goToBookmarkedSection" style="min-height: 0; padding: 0; margin: 0; line-height: 1">
+        <q-item clickable v-ripple @mousedown="goToBookmarkedSection" style="min-height: 0; padding: 0; margin: 0; line-height: 1">
         <q-item-section>
         <pre v-html="bookmarkText" style="margin: 0.4px; color:#F4F6F6;"/>
         <q-tooltip>

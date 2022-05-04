@@ -6,7 +6,6 @@
         component="q-list"
         :items="items"
         dense
-        virtual-scroll-slice-size="400"
         @virtual-scroll="onVirtualScroll"
       >
         <template v-slot="{ item, index }">

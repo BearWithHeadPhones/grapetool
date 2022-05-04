@@ -326,10 +326,10 @@ export default defineComponent({
     },
     preprocessFile(content) {
       content.forEach((element) => {
-        this.preprocessTokens.forEach((token) => {
+        this.preprocessTokens.some((token) => {
           if (token.regexp) {
             var tokenRegexp = new RegExp(token.regexp);
-            if (element.line.search(token.phrase) > 0) {
+            if (element.line.indexOf(token.phrase) > -1) {
               let regexpResult = element.line.match(tokenRegexp);
               if (regexpResult) {
                 this.addBookmark(
@@ -339,15 +339,18 @@ export default defineComponent({
                   token.emot
                 );
               }
+              return true;
             }
-          } else if (element.line.search(token.phrase) > 0) {
+          } else if (element.line.indexOf(token.phrase) > -1) {
             this.addBookmark(
               element.index,
               element.line,
               token.name,
               token.emot
             );
+            return true;
           }
+          return false;
         });
       });
     },
