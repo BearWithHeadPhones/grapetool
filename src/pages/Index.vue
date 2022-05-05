@@ -73,7 +73,7 @@
       <q-scroll-area class="fit">
         <q-list dense padding style="padding-left: 12px">
           <div v-for="bookmark in bookmarks" :key="bookmark.id">
-            <Bookmark
+            <BookmarkItem
               :line="bookmark.text"
               :name="bookmark.emot + bookmark.name"
               :lineNumber="bookmark.id"
@@ -150,7 +150,7 @@
           bordered
           :name="workspace.index"
         >
-          <Workspace
+          <WorkspaceItem
             ref="workspace"
             @logLineClicked="logLineClicked($event)"
             :workspaceId="workspace.index"
@@ -179,15 +179,15 @@
 import { defineComponent } from "vue";
 import { ref } from "vue";
 import { useStore } from "vuex";
-import Workspace from "../components/Workspace.vue";
-import Bookmark from "../components/Bookmark.vue";
+import WorkspaceItem from "../components/WorkspaceItem.vue";
+import BookmarkItem from "../components/BookmarkItem.vue";
 import { updateStats } from "../database/firebaseActions.js";
 
 export default defineComponent({
   name: "PageIndex",
   components: {
-    Workspace,
-    Bookmark,
+    WorkspaceItem,
+    BookmarkItem,
   },
 
   data() {

@@ -26,6 +26,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'Error404'
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'Error404' 
 })
 </script>
