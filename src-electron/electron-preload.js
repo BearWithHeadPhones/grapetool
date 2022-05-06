@@ -23,6 +23,8 @@ contextBridge.exposeInMainWorld("myAPI", {
 
   getFileNameFromArgv: () => ipcRenderer.invoke('filesystem:getArgv'),
 
+  computeBookmarks: (content, tokens) => ipcRenderer.invoke('parallel:computeBookmarks', content, tokens),
+
   getFIREBASEAPIKEY: () => {return process.env.FIREBASE}
   ,
 });

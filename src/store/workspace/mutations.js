@@ -36,6 +36,18 @@ export const addBookMark = (state, { id, text,name, emot }) => {
   }
 };
 
+export const addBookmarkNoSortOrValidation = (state, { id, text,name, emot }) => {
+    state.bookmarks.push({ id: id, text: text, emot: emot ? emot : generateEmot(), name: name });
+}
+
+
+export const sortBookmarks = (state) =>{
+  state.bookmarks.sort((a, b) => {
+    return a.id > b.id ? 1 : -1;
+  });
+
+}
+
 export const clearHighlights = (state) => {
   state.highlights = []
 }

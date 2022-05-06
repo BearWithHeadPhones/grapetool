@@ -192,7 +192,6 @@ export default defineComponent({
 
   data() {
     return {
-      drawerRight: true,
       currentLine: 0,
       sortOnFileOpen: ref(true),
       removeBlankLinesOnFileOpen: ref(true),
@@ -231,7 +230,6 @@ export default defineComponent({
         this.loading = true;
         setTimeout(() => {
           this.openLogFile(this.file.path);
-          this.loading = false;
           this.file = "";
         }, 100);
       }
@@ -255,7 +253,7 @@ export default defineComponent({
           console.log(error);
         }
       }
-      return bokmarks[-1].id;
+      return 0;
     },
     bookmarks() {
       return this.$store.state.workspace.bookmarks;
@@ -312,7 +310,7 @@ export default defineComponent({
     },
 
     gotToLine(index) {
-      this.$refs.workspace.goToBookmark(index);
+      this.currentLine = this.$refs.workspace.goToBookmark(index);
       this.searchStartIndex = index;
     },
 
@@ -325,7 +323,32 @@ export default defineComponent({
       });
     },
     preprocessFile(content) {
-      content.forEach((element) => {
+      (async () => {
+        let result = window.myAPI.computeBookmarks(
+          content.map((elem) => {
+            return { line: elem.line, index: elem.index };
+          }),
+          this.preprocessTokens.map((token) => {
+            return {
+              phrase: token.phrase,
+              regexp: token.regexp,
+              emot: token.emot,
+              name: token.name,
+            };
+          })
+        );
+        result.then((result) => {
+          result.forEach((element) => {
+            this.$store.commit("workspace/addBookmarkNoSortOrValidation", element)})
+            if (this.bookmarks.length > 0) {
+              this.$store.commit("workspace/sortBookmarks")
+              this.leftDrawerOpen = true;
+              this.loading = false;
+            }
+          });
+      })();
+
+      /*content.forEach((element) => {
         this.preprocessTokens.some((token) => {
           if (token.regexp) {
             var tokenRegexp = new RegExp(token.regexp);
@@ -352,7 +375,7 @@ export default defineComponent({
           }
           return false;
         });
-      });
+      });*/
     },
 
     markSearch(token) {
@@ -370,9 +393,7 @@ export default defineComponent({
         this.$store.commit("workspace/addHighlight", {
           higlightText: highlight,
           color:
-            this.markColors[
-              Math.floor(Math.random() * this.markColors.length)
-            ],
+            this.markColors[Math.floor(Math.random() * this.markColors.length)],
         });
       }
     },
@@ -407,12 +428,7 @@ export default defineComponent({
       );
       this.workspaces[0].label = this.file.name;
       this.preprocessFile(this.workspaces[0].content);
-      if (this.bookmarks.length > 0) {
-        this.leftDrawerOpen = true;
-      }
-
       this.greps.forEach((grepPhrase) => {
-        console.log(grepPhrase);
         this.grepToken = grepPhrase;
         this.workspaceIndex = 0;
         this.grep();
@@ -504,7 +520,6 @@ export default defineComponent({
 
     grep: function () {
       updateStats("greps", 1);
-      console.log("workspaceIndex", this.workspaceIndex);
       let grepresult = this.getWorkspace(this.workspaceIndex).content;
 
       var grep = new RegExp(this.grepToken, "i");
@@ -513,7 +528,6 @@ export default defineComponent({
       });
 
       let currentIndex = this.workspaces.at(-1).index;
-      console.log(currentIndex);
       let curretnLabel = this.getWorkspace(this.workspaceIndex).label;
 
       this.workspaces.push({
@@ -560,11 +574,11 @@ export default defineComponent({
 
     (async () => {
       let argv = await window.myAPI.getFileNameFromArgv();
-      console.log(argv)
+      console.log(argv);
       if (argv[1]) {
         //this.openLogFile(argv[1]);
       }
-    })()
+    })();
 
     this.preprocessTokens = preprocessTokensFile.preprocessTokens
       ? preprocessTokensFile.preprocessTokens

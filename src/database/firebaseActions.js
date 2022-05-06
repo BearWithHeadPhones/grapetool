@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, updateDoc, increment } from "firebase/firestore";
+
 const app = initializeApp({
   apiKey: window.myAPI.getFIREBASEAPIKEY(),
   authDomain: "grapetoolpage.firebaseapp.com",

@@ -1,4 +1,8 @@
 import { app, BrowserWindow, nativeTheme, ipcMain } from 'electron'
+import  {runService} from '../extraResources/parallelComputing.js'
+const os = require('os')
+
+
 import path from 'path'
 require('dotenv').config()
 try {
@@ -9,7 +13,7 @@ try {
 
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -43,6 +47,11 @@ function createWindow () {
 
 ipcMain.handle('filesystem:getArgv', () => {
   return process.argv
+})
+
+
+ipcMain.handle('parallel:computeBookmarks', (event, content, tokens) => {
+  return runService(content, tokens, os.cpus().length);
 })
 
 

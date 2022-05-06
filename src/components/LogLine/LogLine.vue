@@ -6,7 +6,7 @@
     context-menu
   >
     <q-item clickable v-close-popup>
-      <q-item-section clickable @click="book">Add bookmark</q-item-section>
+      <q-item-section clickable @click="book">Bookmark</q-item-section>
     </q-item>
   </q-menu>
   <q-item style="min-height: 0; padding: 0; margin: 0; line-height: 1">
