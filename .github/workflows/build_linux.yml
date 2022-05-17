@@ -9,7 +9,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: "16"
+          node-version: "16.11.0"
       - run: npm install
       - run: npm install -g @quasar/cli
       - run: quasar build --mode electron

@@ -11,6 +11,6 @@ jobs:
         with:
           node-version: '16'
       - run: npm install
-      - run: npm install -g @quasar/cli
-      - run: npm test
+      #- run: npm install -g @quasar/cli
+      - run: npm run test:unit:ci
       - run: echo "🍏 This job's status is ${{ job.status }}."

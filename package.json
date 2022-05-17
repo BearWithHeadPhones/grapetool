@@ -7,7 +7,14 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "test": "jest"
+    "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
+    "test:unit": "jest --updateSnapshot",
+    "test:unit:ci": "jest --ci",
+    "test:unit:coverage": "jest --coverage",
+    "test:unit:watch": "jest --watch",
+    "test:unit:watchAll": "jest --watchAll",
+    "serve:test:coverage": "quasar serve test/jest/coverage/lcov-report/ --port 8788",
+    "concurrently:dev:jest": "concurrently \"quasar dev\" \"jest --watch\""
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -20,6 +27,8 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "3.1.3",
+    "@quasar/quasar-app-extension-testing": "^2.0.3",
+    "@quasar/quasar-app-extension-testing-unit-jest": "^3.0.0-alpha.10",
     "@vue/devtools": "^5.3.4",
     "electron": "^18.2.0",
     "electron-builder": "^22.14.13",
@@ -29,7 +38,8 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^8.7.1",
     "eslint-webpack-plugin": "^2.4.0",
-    "jest": "^28.0.2"
+    "jest": "^26.0.2",
+    "eslint-plugin-jest": "^25.2.2"
   },
   "browserslist": [
     "last 10 Chrome versions",

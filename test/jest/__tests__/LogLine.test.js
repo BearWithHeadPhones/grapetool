@@ -1,4 +1,4 @@
-const LogLine = require("./LogLine");
+const LogLine = require("../../../src/components/LogLine/LogLine.js")
 
 describe("computeNumbersPanel", () => {
   it.each([
