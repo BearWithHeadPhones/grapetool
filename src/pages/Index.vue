@@ -2,25 +2,10 @@
   <q-page flex>
     <q-header elevated ref="heada">
       <q-bar class="bg-indigo">
-        <q-btn
-          flat
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          round
-          dense
-          icon="menu"
-        />
+        <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
         <q-toolbar-title>grapetool</q-toolbar-title>
-        <q-input
-          standout
-          v-model="searchPhrase"
-          dark
-          dense
-          ref="searchField"
-          debounce="50"
-          placeholder="search"
-          @keyup.enter="search"
-          input-class="text-right"
-        >
+        <q-input standout v-model="searchPhrase" dark dense ref="searchField" debounce="50" placeholder="search"
+          @keyup.enter="search" input-class="text-right">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -29,14 +14,7 @@
         <q-toggle size="xs" v-model="showLineNumbers" icon="list" />
         <q-separator dark vertical inset />
         <q-file v-if="true" ref="filepicker" v-model="file" style="width: 0" />
-        <q-btn-dropdown
-          split
-          push
-          icon="folder"
-          flat
-          label="open file"
-          @click="pickFile"
-        >
+        <q-btn-dropdown split push icon="folder" flat label="open file" @click="pickFile">
           <div class="text-center">
             <q-list dense>
               <div class="text-h7 q-mb-md" style="margin-bottom: 0px">
@@ -46,11 +24,7 @@
                 <q-toggle size="xs" v-model="sortOnFileOpen" label="Sort" />
               </q-item>
               <q-item>
-                <q-toggle
-                  size="xs"
-                  v-model="removeBlankLinesOnFileOpen"
-                  label="Remove blanks"
-                />
+                <q-toggle size="xs" v-model="removeBlankLinesOnFileOpen" label="Remove blanks" />
               </q-item>
             </q-list>
           </div>
@@ -64,22 +38,12 @@
       </q-bar>
     </q-header>
 
-    <q-drawer
-      padding
-      v-model="leftDrawerOpen"
-      class="text-white"
-      style="background-color: #24759c"
-    >
+    <q-drawer padding v-model="leftDrawerOpen" class="text-white" style="background-color: #24759c">
       <q-scroll-area class="fit">
         <q-list dense padding style="padding-left: 12px">
           <div v-for="bookmark in bookmarks" :key="bookmark.id">
-            <BookmarkItem
-              :line="bookmark.text"
-              :name="bookmark.emot + bookmark.name"
-              :lineNumber="bookmark.id"
-              :markPosition="bookmark.id == markedBookmarkId"
-              @bookmarkWarp="bookmarkWarp($event)"
-            />
+            <BookmarkItem :line="bookmark.text" :name="bookmark.emot + bookmark.name" :lineNumber="bookmark.id"
+              :markPosition="bookmark.id == markedBookmarkId" @bookmarkWarp="bookmarkWarp($event)" />
           </div>
         </q-list>
       </q-scroll-area>
@@ -92,14 +56,8 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            ref="grepInput"
-            v-model="grepToken"
-            autofocus
-            @keyup.enter="grep"
-            @keyup.esc="prompt = false"
-          />
+          <q-input dense ref="grepInput" v-model="grepToken" autofocus @keyup.enter="grep"
+            @keyup.esc="prompt = false" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -110,56 +68,21 @@
     </q-dialog>
     <q-linear-progress v-if="loading" indeterminate />
     <div class="container">
-      <q-tabs
-        ref="tabs"
-        v-model="workspaceIndex"
-        dense
-        no-caps
-        class="text-grey"
-        active-color="primary"
-        indicator-color="primary"
-        align="left"
-        inline-label
-      >
-        <q-tab
-          :key="workspace.index"
-          v-for="workspace in workspaces"
-          highlight
-          separator
-          :name="workspace.index"
-          :label="workspace.label"
-        >
-          <q-btn
-            size="8px"
-            v-if="workspace.index > 0"
-            flat
-            round
-            color="deep-orange"
-            icon="close"
-            @click="closeTab(workspace.index)"
-        /></q-tab>
+      <q-tabs ref="tabs" v-model="workspaceIndex" dense no-caps class="text-grey" active-color="primary"
+        indicator-color="primary" align="left" inline-label>
+        <q-tab :key="workspace.index" v-for="workspace in workspaces" highlight separator :name="workspace.index"
+          :label="workspace.label">
+          <q-btn size="8px" v-if="workspace.index > 0" flat round color="deep-orange" icon="close"
+            @click="closeTab(workspace.index)" />
+        </q-tab>
       </q-tabs>
       <q-separator />
       <q-tab-panels v-model="workspaceIndex" @click="oneClick">
-        <q-tab-panel
-          style="padding: 0"
-          :key="workspace.index"
-          v-for="workspace in workspaces"
-          highlight
-          separator
-          bordered
-          :name="workspace.index"
-        >
-          <WorkspaceItem
-            ref="workspace"
-            @logLineClicked="logLineClicked($event)"
-            :workspaceId="workspace.index"
-            :items="workspace.content"
-            :bookmarkLine="bookmarkLine"
-            :searchedToken="searchPhrase"
-            :showLineNumbers="showLineNumbers"
-            :height="workspaceHeight"
-          />
+        <q-tab-panel style="padding: 0" :key="workspace.index" v-for="workspace in workspaces" highlight separator
+          bordered :name="workspace.index">
+          <WorkspaceItem ref="workspace" @logLineClicked="logLineClicked($event)" :workspaceId="workspace.index"
+            :items="workspace.content" :bookmarkLine="bookmarkLine" :searchedToken="searchPhrase"
+            :showLineNumbers="showLineNumbers" :height="workspaceHeight" />
         </q-tab-panel>
       </q-tab-panels>
     </div>
@@ -339,13 +262,14 @@ export default defineComponent({
         );
         result.then((result) => {
           result.forEach((element) => {
-            this.$store.commit("workspace/addBookmarkNoSortOrValidation", element)})
-            if (this.bookmarks.length > 0) {
-              this.$store.commit("workspace/sortBookmarks")
-              this.leftDrawerOpen = true;
-              this.loading = false;
-            }
-          });
+            this.$store.commit("workspace/addBookmarkNoSortOrValidation", element)
+          })
+          if (this.bookmarks.length > 0) {
+            this.$store.commit("workspace/sortBookmarks")
+            this.leftDrawerOpen = true;
+            this.loading = false;
+          }
+        });
       })();
 
       /*content.forEach((element) => {

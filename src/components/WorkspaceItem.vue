@@ -1,34 +1,15 @@
 <template>
-      <q-virtual-scroll
-        q-page-sticky
-        ref="virtualListRef"
-        :style="heightComputed"
-        component="q-list"
-        :items="items"
-        dense
-        @virtual-scroll="onVirtualScroll"
-      >
-        <template v-slot="{ item, index }">
-          <q-item
-            clickable
-            v-ripple
-            :key="index"    
-            style="min-height: 0; padding: 0; line-height: 1"
-          
-          >
-            <LogLine
-              @logLineClicked="logLineClicked($event)"
-              :index="index"
-              :id="item.index"
-              :line="item.line"
-              :searchedToken="searchedToken"
-              :showLineNumbers="showLineNumbers"
-              :highlight="index === bookamrkLineRelative"
-            />
-          </q-item>
-        </template>
-      </q-virtual-scroll>
-   
+  <q-virtual-scroll q-page-sticky ref="virtualListRef" :style="heightComputed" component="q-list" :items="items" dense
+    @virtual-scroll="onVirtualScroll">
+    <template v-slot="{ item, index }">
+      <q-item clickable v-ripple :key="index" style="min-height: 0; padding: 0; line-height: 1">
+        <LogLine @logLineClicked="logLineClicked($event)" :index="index" :id="item.index" :line="item.line"
+          :searchedToken="searchedToken" :showLineNumbers="showLineNumbers"
+          :highlight="index === bookamrkLineRelative" />
+      </q-item>
+    </template>
+  </q-virtual-scroll>
+
 </template>
 
 <script>
@@ -43,8 +24,8 @@ export default defineComponent({
 
   name: "WorkspaceItem",
   props: {
-    height:{
-      type:Number
+    height: {
+      type: Number
     },
     showLineNumbers: {
       type: Boolean,
@@ -75,9 +56,9 @@ export default defineComponent({
       forwardToken: "",
     };
   },
-  computed:{
-    heightComputed(){
-      return "height: " + this.height +"px;"
+  computed: {
+    heightComputed() {
+      return "height: " + this.height + "px;"
     }
   },
   methods: {

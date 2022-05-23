@@ -21,7 +21,7 @@ let setLineColor = function (phrase, line, color) {
   return line;
 };
 
-let highlightToken = function (token, line, color) { 
+let highlightToken = function (token, line, color) {
   if (token && token.length > 0) {
     var found = new RegExp(token, "ig");
     return line.replaceAll(found, (matched) => {
